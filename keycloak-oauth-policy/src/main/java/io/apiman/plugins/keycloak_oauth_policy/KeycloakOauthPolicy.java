@@ -35,6 +35,7 @@ import org.apache.commons.lang.StringUtils;
 import org.keycloak.RSATokenVerifier;
 import org.keycloak.VerificationException;
 import org.keycloak.constants.KerberosConstants;
+import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessToken.Access;
 
@@ -133,6 +134,14 @@ public class KeycloakOauthPolicy extends AbstractMappedPolicy<KeycloakOauthConfi
             IPolicyContext context, KeycloakOauthConfigBean config, IPolicyChain<ServiceRequest> chain,
             String rawToken) {
         try {
+            
+            System.out.println("Token -----");
+            System.out.println(new JWSInput(rawToken).readContentAsString());
+
+            System.out.println("Apiman -----");
+            System.out.println("Current system time: " + System.currentTimeMillis());
+            
+            
             AccessToken parsedToken = RSATokenVerifier.verifyToken(rawToken, config.getRealmCertificate()
                     .getPublicKey(), config.getRealm());
 
